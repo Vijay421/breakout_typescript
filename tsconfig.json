@@ -8,7 +8,7 @@
     "target": "es5"
   },
   "include": [
-    "recources/js/**/*.ts"
+    "recources/ts/**/*.ts"
   ],
   "exclude": [
     "node_modules",
