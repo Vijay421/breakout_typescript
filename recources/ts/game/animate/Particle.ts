@@ -9,6 +9,7 @@ export default class Particle{
     private _color:string;
     private _width:number;
     private _height:number;
+    private _speed:number;
     private _x:number;
     private _y:number;
     private _xSwerve:number;
@@ -17,13 +18,14 @@ export default class Particle{
     private _teller:number =0;
     private _caller:any;
 
-    public constructor({game, startPos, endPos, color, width, height, caller}:any){
+    public constructor({game, startPos, endPos, speed, color, width, height, caller}:any){
         this._startPos = startPos;
         this._endPos = endPos;
         this._color = color;
         this._width = width;
         this._height = height;
         this._game = game;
+        this._speed = speed;
         this._x = this.startPos.x;
         this._y = this.startPos.y;
         this._caller = caller;
@@ -33,15 +35,15 @@ export default class Particle{
 
     public update(){
         this.draw();
-        let xSpeed = this.speedCalc(this._endPos.x, this._x);
+        let xSpeed:number = this.lerp(this._endPos.x, this._x);
         if(!!xSpeed)
             this._x+= xSpeed + this._xSwerve;
 
-        let ySpeed = this.speedCalc(this._endPos.y, this._y);
+        let ySpeed:number = this.lerp(this._endPos.y, this._y);
         if(!!ySpeed)
             this._y-= ySpeed + this._ySwerve;
 
-        if(this._teller % 5 === 0)
+        if(this._teller % 6 === 0)
             this._alpha-= 0.01;
 
         if(this._alpha <= 0)
@@ -50,20 +52,20 @@ export default class Particle{
         this._teller++;
     }
 
-    public static createParticleCluster(size:number, caller:GameObject):void{
+    public static createParticleCluster(size:number, caller:GameObject, speed:number = 1000000000):void{
         let particleSize:number = Math.sqrt(size);
         for(let x=0; caller.width - x > 0 ;x+=particleSize){
             for(let y=0; caller.height - y > 0; y+=particleSize){
-                let param:any = {game:caller.game, startPos:{x:caller.x + x, y:caller.y + y}, endPos:{x:caller.x + x+50, y:caller.y + y+50,} ,color:caller.color, width:particleSize, height:particleSize, caller:caller};
+                let param:any = {game:caller.game, startPos:{x:caller.x + x, y:caller.y + y}, speed, endPos:{x:caller.x + x+50, y:caller.y + y+50,} ,color:caller.color, width:particleSize, height:particleSize, caller:caller};
                 caller.game.addAnimateObject(param);
             }
         }
     }
 
-    public speedCalc(endPoint:number, pos:number):number{
+    public lerp(endPoint:number, pos:number):number{
         let toTravel:number = ( endPoint - pos ) < 0 ? -( endPoint - pos ):( endPoint - pos );
         if( toTravel > 0.1 ){
-            return ( endPoint- pos ) / 1000;
+            return ( endPoint - pos ) / this._speed;
         }
         return ;
     }

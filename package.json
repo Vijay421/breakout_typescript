@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-cli --watch",
     "build": "webpack recources/js/game/App.js --output=public/js/bundle.js -d"
   },
   "author": "",

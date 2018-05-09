@@ -41,7 +41,7 @@ var Block = (function (_super) {
     Block.prototype.takeDamage = function (damage) {
         this._life -= damage;
         if (this._life <= 0) {
-            Particle_1.default.createParticleCluster(75, this);
+            Particle_1.default.createParticleCluster(50, this);
             this.game.removeGameObject(this);
         }
     };

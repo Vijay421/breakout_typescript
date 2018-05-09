@@ -33,7 +33,7 @@ export default class Block extends GameObject{
     public takeDamage(damage:number){
         this._life-= damage;
         if(this._life <= 0){
-            Particle.createParticleCluster(75, this);
+            Particle.createParticleCluster(50, this);
             this.game.removeGameObject(this);
         }
     }
