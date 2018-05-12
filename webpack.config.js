@@ -1,7 +1,7 @@
 const path = require('path');
 module.exports = {
 	entry: './recources/ts/App.ts',
-	mode: 'development',
+	mode: 'production',
 	module: {
 		rules: [
 			{
@@ -13,10 +13,12 @@ module.exports = {
 	resolve: {
 		extensions: [
 			'.ts',
+			'.js',
 		],
 	},
 	output: {
 		filename: 'build.js',
-		path: path.resolve(__dirname, 'public/js')
+		path: path.resolve(__dirname, 'public/js/dist'),
+		publicPath: '/public/',
 	}
 };
